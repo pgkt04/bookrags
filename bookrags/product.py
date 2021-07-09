@@ -29,14 +29,14 @@ class Product:
     def set_link(self, link):
         self.__link = link
 
-    def get_pdf(self, link):
+    def get_pdf(self):
         """
-        Gets the pdf link from the page
+        Gets the pdf down link
         """
         pass
 
-    def get_word(self, link):
+    def get_docx(self):
         """
-        Get the word link from the page
+        Get the word download link
         """
         pass

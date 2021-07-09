@@ -1,4 +1,8 @@
 class Lens:
+    """
+    Special product type that contains references to all resources
+    """
+
     def __init__(self) -> None:
         pass
 
