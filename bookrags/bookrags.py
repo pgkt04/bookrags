@@ -41,15 +41,22 @@ class BookRags:
         return page_title
 
     def get_study_pack(self, link):
+        """
+        Returns all the pages for a study pack
+        """
         page_text = self.__session.get(link)
-        # Regex:
-        # <!-- BEGIN STUDY GUIDE BLOCK -->
-        # <!-- END STUDY PACK BLOCK -->
-        re.search('', page_text)
+        re.search(('<!-- BEGIN STUDY GUIDE BLOCK -->'
+                   '(.*?)<!-- BEGIN STUDY GUIDE BLOCK -->'),
+                  page_text)
 
-    def get_essays(self, link):
+    def get_pdf(self, link):
         """
-        Fetch all download links for a given essa
+        Gets the pdf link from the page
         """
-        page_text = self.__session.get(link)
-        re.search('', page_text)
+        pass
+
+    def get_word(self, link):
+        """
+        Get the word link from the page
+        """
+        pass
