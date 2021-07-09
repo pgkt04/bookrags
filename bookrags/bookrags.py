@@ -1,7 +1,7 @@
 import requests
 from bookrags import urls
 from bookrags.book import Book
-from bookrags.studypack import StudyPack
+from bookrags.lens import Lens
 
 # Automatically navigate to the study guide page
 # Query what pages there are
@@ -34,27 +34,8 @@ class BookRags:
         """
         self.__session.get(urls.LOGOUT_URL)
 
-    def get_study_pack(self, link):
+    def search(self, query):
         """
-        Returns all the pages for a study pack
-        """
-        page_text = self.__session.get(link)
-        re.search(('<!-- BEGIN STUDY GUIDE BLOCK -->'
-                   '(.*?)<!-- BEGIN STUDY GUIDE BLOCK -->'),
-                  page_text)
-
-    def get_pdf(self, link):
-        """
-        Gets the pdf link from the page
+        Perform a search query and return the results
         """
         pass
-
-    def get_word(self, link):
-        """
-        Get the word link from the page
-        """
-        pass
-
-
-class StudyPack:
-    pass
