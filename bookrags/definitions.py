@@ -20,7 +20,7 @@ class ProductType(Enum):
     LENS = 8
 
 
-PRODTYPES = {
+CONVERT_TYPE = {
     'lens': ProductType.LENS,
     'lp': ProductType.LESSON_PLAN,
     'guides': ProductType.STUDY_GUIDE,

@@ -3,7 +3,7 @@ from bookrags.definitions import ProductType
 
 
 class Product:
-    def __init__(self, link) -> None:
+    def __init__(self, link):
         self.__link = link
         self.__type = ProductType.UNKNOWN
 
