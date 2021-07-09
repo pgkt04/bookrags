@@ -18,7 +18,7 @@ class BookRags:
         self.__login()
 
     def __login(self):
-        ret = self.__session.post(
+        self.__session.post(
             urls.LOGIN_URL,
             data=self.__details)
 
