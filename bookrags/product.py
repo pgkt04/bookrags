@@ -4,10 +4,10 @@ from bookrags.definitions import ProductType
 
 
 class Product:
-    def __init__(self, session: Session, link: str):
+    def __init__(self, session: Session, link: str, type: ProductType):
         self.__link = link
         self.__session = session
-        self.__type = ProductType.UNKNOWN
+        self.__type = type
 
     def get_link(self):
         return self.__link

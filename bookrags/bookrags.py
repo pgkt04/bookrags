@@ -88,8 +88,7 @@ class BookRags:
                 type == ProductType.LENS:
             return None
 
-        return Product(self.__session, link)
-
+        return Product(self.__session, link, type)
 
     def resolve_study_plan(self, link: str):
         """
