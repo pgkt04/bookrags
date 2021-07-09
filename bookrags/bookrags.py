@@ -1,6 +1,6 @@
 import requests
-import re
 from bookrags import urls
+from bookrags.book import Book
 from bookrags.studypack import StudyPack
 
 # Automatically navigate to the study guide page
@@ -29,12 +29,10 @@ class BookRags:
         return len(check.text) > 1
 
     def logout(self):
+        """
+        Signs out of the user account from the active session
+        """
         self.__session.get(urls.LOGOUT_URL)
-
-    def get_title(self, link):
-        page_text = self.__session.get(link).text
-        page_title = re.search('<title>(.*?)</title>', page_text).group(1)
-        return page_title
 
     def get_study_pack(self, link):
         """
