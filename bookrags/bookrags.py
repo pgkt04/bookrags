@@ -37,7 +37,7 @@ class BookRags:
         check = self.__session.get(
             Urls.ACCOUNT_URL,
             allow_redirects=False)
-        return len(check.text) > 1
+        return len(check.text) > 0
 
     def get_session(self):
         return self.__session

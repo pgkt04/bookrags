@@ -12,14 +12,20 @@ class Urls:
 class ProductType(Enum):
     UNKNOWN = 0
     STUDY_GUIDE = 1
-    GALE = 2
+    ENCYCLOPEDIA = 2
     EBOOK = 3
     BIOGRAPHY = 4
     ESSAY = 5
-    NOTE = 6
-    LESSON_PLAN = 7
+    LESSON_PLAN = 7,
+    LENS = 8
 
 
 PRODTYPES = {
-    'lp': ProductType.LESSON_PLAN
+    'lens': ProductType.LENS,
+    'lp': ProductType.LESSON_PLAN,
+    'guides': ProductType.STUDY_GUIDE,
+    'gale': ProductType.ENCYCLOPEDIA,
+    'ebooks': ProductType.EBOOK,
+    'bios': ProductType.BIOGRAPHY,
+    'litcrit': ProductType.ESSAY
 }
