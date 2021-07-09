@@ -1,5 +1,6 @@
 import requests
 import re
+from bookrags import urls
 from bookrags.studypack import StudyPack
 
 # Automatically navigate to the study guide page
@@ -7,12 +8,6 @@ from bookrags.studypack import StudyPack
 
 
 class BookRags:
-
-    WEBSITE_URL = "http://www.bookrags.com/"
-    SESSION_URL = "http://www.bookrags.com/questions/topics/popular"
-    LOGIN_URL = "https://www.bookrags.com/qa/login.php?step=submit"
-    LOGOUT_URL = "http://www.bookrags.com/qa/logout.php"
-    ACCOUNT_URL = 'https://www.bookrags.com/my-account/'
 
     def __init__(self, username, password) -> None:
         self.__details = {
@@ -24,17 +19,17 @@ class BookRags:
 
     def __login(self):
         ret = self.__session.post(
-            self.LOGIN_URL,
+            urls.LOGIN_URL,
             data=self.__details)
 
     def is_logged_in(self):
         check = self.__session.get(
-            self.ACCOUNT_URL,
+            urls.ACCOUNT_URL,
             allow_redirects=False)
         return len(check.text) > 1
 
     def logout(self):
-        self.__session.get(self.LOGOUT_URL)
+        self.__session.get(urls.LOGOUT_URL)
 
     def get_title(self, link):
         page_text = self.__session.get(link).text
