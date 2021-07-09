@@ -14,7 +14,7 @@ class Lens:
 
     def get_title(self):
         page_text = self.__session.get(self.__link).text
-        page_title = re.search('<title>(.*?)</title>', page_text).group(1)
+        page_title = re.search('<title>(.*?)</title>', page_text)
         return page_title
 
     def get_study_pack(self):
@@ -22,11 +22,12 @@ class Lens:
         Returns all the pages for a study pack
         """
         page_text = self.__session.get(self.__link).text
-
         study_block = re.search(('<!-- BEGIN STUDY GUIDE BLOCK -->'
                                 '(.*?)<!-- BEGIN STUDY GUIDE BLOCK -->'),
                                 page_text)
-        print(study_block)
+        if not study_block:
+            return None
+        print(study_block.group())
 
     def get_studypack(self):
         """

@@ -1,10 +1,12 @@
 import re
+from requests import Session
 from bookrags.definitions import ProductType
 
 
 class Product:
-    def __init__(self, link):
+    def __init__(self, session: Session, link: str):
         self.__link = link
+        self.__session = session
         self.__type = ProductType.UNKNOWN
 
     def get_link(self):

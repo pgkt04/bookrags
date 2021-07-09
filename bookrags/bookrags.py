@@ -2,6 +2,7 @@ import re
 import json
 import requests
 from bookrags.definitions import Urls, ProductType, CONVERT_TYPE
+from bookrags.product import Product
 from bookrags.lens import Lens
 
 # Automatically navigate to the study guide page
@@ -80,7 +81,15 @@ class BookRags:
         """
         Given a link, it will resolve into the product page
         """
-        return 0
+        type = self.resolve_type(link)
+
+        if type == ProductType.UNKNOWN or \
+                type == ProductType.LESSON_PLAN or \
+                type == ProductType.LENS:
+            return None
+
+        return Product(self.__session, link)
+
 
     def resolve_study_plan(self, link: str):
         """
