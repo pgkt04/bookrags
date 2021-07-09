@@ -4,7 +4,6 @@ import re
 # Automatically navigate to the study guide page
 # Query what pages there are
 
-
 class BookRags:
 
     WEBSITE_URL = "http://www.bookrags.com/"
