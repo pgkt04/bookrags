@@ -6,7 +6,6 @@ from bookrags.lens import Lens
 # Automatically navigate to the study guide page
 # Query what pages there are
 
-
 class BookRags:
 
     def __init__(self, username, password) -> None:
@@ -18,11 +17,17 @@ class BookRags:
         self.__login()
 
     def __login(self):
+        """
+        Authenticates the current session using the given details
+        """
         self.__session.post(
             urls.LOGIN_URL,
             data=self.__details)
 
     def is_logged_in(self):
+        """
+        Checks if the current session is signed in
+        """
         check = self.__session.get(
             urls.ACCOUNT_URL,
             allow_redirects=False)
