@@ -1,5 +1,6 @@
 import re
 
+
 class Book:
     def __init__(self) -> None:
         pass
@@ -15,5 +16,5 @@ class Book:
         """
         page_text = self.__session.get(link)
         re.search(('<!-- BEGIN STUDY GUIDE BLOCK -->'
-                '(.*?)<!-- BEGIN STUDY GUIDE BLOCK -->'),
-                page_text)
+                   '(.*?)<!-- BEGIN STUDY GUIDE BLOCK -->'),
+                  page_text)

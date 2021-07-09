@@ -1,15 +1,39 @@
-class StudyPack:
+class Lens:
     def __init__(self) -> None:
         pass
 
-    def get_pdf(self, link):
+    def get_studypack():
         """
-        Gets the pdf link from the page
+        Returns all the links in the studypack
         """
         pass
 
-    def get_word(self, link):
+    def get_study_guides():
         """
-        Get the word link from the page
+        Return all study guide links
+        """
+        pass
+
+    def get_encyclopedias():
+        """
+        Return all encyclopedia / gale links
+        """
+        pass
+
+    def get_biographies():
+        """
+        Get all biography linkes
+        """
+        pass
+
+    def get_essays():
+        """
+        Get all essay links
+        """
+        pass
+
+    def get_notes():
+        """
+        Get all note links
         """
         pass
