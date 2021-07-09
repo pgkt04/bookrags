@@ -1,15 +1,5 @@
 import re
-from enum import Enum
-
-
-class ProductType(Enum):
-    UNKNOWN = 0
-    STUDY_GUIDE = 1
-    GALE = 2
-    EBOOK = 3
-    BIOGRAPHY = 4
-    ESSAY = 5
-    NOTE = 6
+from bookrags.definitions import ProductType
 
 
 class Product:
