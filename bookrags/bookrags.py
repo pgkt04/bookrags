@@ -1,9 +1,9 @@
 import re
 import requests
-from bookrags import urls
+from bookrags.definitions import Urls
 from bookrags import product
 from bookrags.lens import Lens
-from bookrags.product import ProductType, Product
+from bookrags.product import Product
 
 # Automatically navigate to the study guide page
 # Query what pages there are
@@ -27,7 +27,7 @@ class BookRags:
         Authenticates the current session using the given details
         """
         self.__session.post(
-            urls.LOGIN_URL,
+            Urls.LOGOUT_URL,
             data=self.__details)
 
     def is_logged_in(self):
@@ -35,7 +35,7 @@ class BookRags:
         Checks if the current session is signed in
         """
         check = self.__session.get(
-            urls.ACCOUNT_URL,
+            Urls.ACCOUNT_URL,
             allow_redirects=False)
         return len(check.text) > 1
 
@@ -46,16 +46,28 @@ class BookRags:
         """
         Signs out of the user account from the active session
         """
-        self.__session.get(urls.LOGOUT_URL)
+        self.__session.get(Urls.LOGOUT_URL)
 
-    def resolve_link(self, link):
+    def resolve_type(self, link):
+        """
+        Given a link, it will return the product type
+        """
+        pass
+
+    def resolve_product(self, link):
+        """
+        Given a link, it will resolve into the product page
+        """
+        pass
+
+    def resolve_study_plan(self, link):
         """
         Given a link, it will resolve it into the study guide page
         """
         if not re.search('bookrags.com', link):
             print('bad link')
             return None
-        
+
         print('link is valid')
 
         # read product type
