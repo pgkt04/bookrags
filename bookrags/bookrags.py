@@ -94,23 +94,8 @@ class BookRags:
         """
         Given a link, it will resolve it into the study guide page and return a Lens instance
         """
+        type = self.resolve_type(link)
 
-        print('link is valid')
-
-        # read product type
-        page = self.__session.get(link).text
-        product_type = re.search('', page)
-
-        # if we can't then this page isnt supported :c
-        if not product_type:
-            return None
-
-        # we are already on the page
-        if product_type == 'lens':
-            return Lens()
-
-        # visit page
-        # read prodtype
 
     def search(self, query: str):
         """
