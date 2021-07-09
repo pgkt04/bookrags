@@ -1,8 +1,10 @@
 import requests
 import re
+from bookrags.studypack import StudyPack
 
 # Automatically navigate to the study guide page
 # Query what pages there are
+
 
 class BookRags:
 
@@ -59,3 +61,7 @@ class BookRags:
         Get the word link from the page
         """
         pass
+
+
+class StudyPack:
+    pass
