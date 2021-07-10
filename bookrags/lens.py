@@ -9,27 +9,30 @@ class Lens:
     """
 
     def __init__(self, session: Session, link: str):
-        self.__session = session
-        self.__link = link
-    
+        self._session = session
+        self._link = link
+        self._content = session.get(link)
+
     def get_link(self):
-        return self.__link
+        return self._link
 
     def get_title(self):
-        page_text = self.__session.get(self.__link).text
-        page_title = re.search('<title>(.*?)</title>', page_text)
+        page_title = re.search('<title>(.*?)</title>', self._content)
         return page_title
 
     def get_study_pack(self):
         """
         Returns all the pages for a study pack
         """
-        page_text = self.__session.get(self.__link).text
-        study_block = re.search(('<!-- BEGIN STUDY GUIDE BLOCK -->'
-                                '(.*?)<!-- BEGIN STUDY GUIDE BLOCK -->'),
-                                page_text)
+        ret = []
+        get_study_block = ('<!-- BEGIN STUDY GUIDE BLOCK -->'
+                           '(.*?)<!-- BEGIN STUDY GUIDE BLOCK -->')
+        study_block = re.search(
+            get_study_block, self._content, flags=re.re.DOTALL)
+
         if not study_block:
-            return None
+            return ret
+
         print(study_block.group())
 
     def get_studypack(self):

@@ -19,23 +19,23 @@ class BookRags:
             'edEmailOrName': username,
             'edPW': password
         }
-        self.__session = requests.Session()
-        self.__setup_cookies()
-        self.__login()
+        self._session = requests.Session()
+        self._setup_cookies()
+        self._login()
 
-    def __setup_cookies(self):
+    def _setup_cookies(self):
         """
         Not required
         """
-        self.__session.cookies['layout'] = 'desktop'
-        self.__session.get(Urls.WEBSITE_URL)
-        self.__session.get(Urls.SESSION_URL)
+        self._session.cookies['layout'] = 'desktop'
+        self._session.get(Urls.WEBSITE_URL)
+        self._session.get(Urls.SESSION_URL)
 
-    def __login(self):
+    def _login(self):
         """
         Authenticates the current session using the given details
         """
-        self.__session.post(
+        self._session.post(
             Urls.LOGIN_URL,
             data=self.__details)
 
@@ -43,20 +43,20 @@ class BookRags:
         """
         Checks if the current session is signed in
         """
-        check = self.__session.get(
+        check = self._session.get(
             Urls.ACCOUNT_URL,
             allow_redirects=False).text
 
         return len(check) > 0
 
     def get_session(self):
-        return self.__session
+        return self._session
 
     def logout(self):
         """
         Signs out of the user account from the active session
         """
-        self.__session.get(Urls.LOGOUT_URL)
+        self._session.get(Urls.LOGOUT_URL)
 
     def resolve_type(self, link: str):
         """
@@ -65,7 +65,7 @@ class BookRags:
         if not re.search('bookrags.com', link):
             return ProductType.UNKNOWN
         try:
-            page = self.__session.get(link).text
+            page = self._session.get(link).text
             json_raw = re.search(
                 '{.*?}', re.search('dataLayer.push\({"sku":.*?</script>',
                                    page).group()
@@ -88,7 +88,7 @@ class BookRags:
                 type == ProductType.LENS:
             return None
 
-        return Product(self.__session, link, type)
+        return Product(self._session, link, type)
 
     def resolve_study_plan(self, link: str):
         """
@@ -100,15 +100,15 @@ class BookRags:
             return None
 
         if type == ProductType.LENS:
-            return Lens(self.__session, link)
+            return Lens(self._session, link)
 
-        page = self.__session.get(link).text
+        page = self._session.get(link).text
 
         study_guide = re.search("href=\'(.*?)\'", re.search(
             '<div id=\'contentSPUpsellBlock\'>(.*?)</div>', page, flags=re.DOTALL
         ).group()).group(1)
 
-        return Lens(self.__session, study_guide)
+        return Lens(self._session, study_guide)
 
     def search(self, query: str):
         """
