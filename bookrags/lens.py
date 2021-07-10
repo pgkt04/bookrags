@@ -11,6 +11,9 @@ class Lens:
     def __init__(self, session: Session, link: str):
         self.__session = session
         self.__link = link
+    
+    def get_link(self):
+        return self.__link
 
     def get_title(self):
         page_text = self.__session.get(self.__link).text

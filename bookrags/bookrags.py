@@ -96,6 +96,19 @@ class BookRags:
         """
         type = self.resolve_type(link)
 
+        if type == ProductType.UNKNOWN:
+            return None
+
+        if type == ProductType.LENS:
+            return Lens(self.__session, link)
+
+        page = self.__session.get(link).text
+
+        study_guide = re.search("href=\'(.*?)\'", re.search(
+            '<div id=\'contentSPUpsellBlock\'>(.*?)</div>', page, flags=re.DOTALL
+        ).group()).group(1)
+
+        return Lens(self.__session, study_guide)
 
     def search(self, query: str):
         """
