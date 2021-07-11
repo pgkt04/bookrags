@@ -22,12 +22,11 @@ class Lens:
     def get_study_pack(self):
         """
         Returns all the pages for a study pack
+        wait i just realised how fucking stupid this function is LOL
         """
-        print(self._content)
-
         ret = []
-        get_study_block = ('<!-- BEGIN STUDY GUIDE BLOCK -->'
-                           '(.*?)<!-- END STUDY GUIDE BLOCK -->')
+        get_study_block = ('<!-- BEGIN STUDY PACK BLOCK -->'
+                           '(.*?)<!-- END STUDY PACK BLOCK -->')
 
         study_block = re.search(
             get_study_block, self._content, flags=re.DOTALL)
@@ -37,12 +36,6 @@ class Lens:
             return ret
 
         print(study_block.group())
-
-    def get_studypack(self):
-        """
-        Returns all the links in the studypack
-        """
-        pass
 
     def get_study_guides(self):
         """
