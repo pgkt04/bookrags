@@ -1,5 +1,4 @@
 import re
-
 from requests.sessions import Session
 
 
@@ -11,7 +10,7 @@ class Lens:
     def __init__(self, session: Session, link: str):
         self._session = session
         self._link = link
-        self._content = session.get(link)
+        self._content = session.get(link).text
 
     def get_link(self):
         return self._link
@@ -24,13 +23,17 @@ class Lens:
         """
         Returns all the pages for a study pack
         """
+        print(self._content)
+
         ret = []
         get_study_block = ('<!-- BEGIN STUDY GUIDE BLOCK -->'
-                           '(.*?)<!-- BEGIN STUDY GUIDE BLOCK -->')
+                           '(.*?)<!-- END STUDY GUIDE BLOCK -->')
+
         study_block = re.search(
-            get_study_block, self._content, flags=re.re.DOTALL)
+            get_study_block, self._content, flags=re.DOTALL)
 
         if not study_block:
+            print('study block not found')
             return ret
 
         print(study_block.group())
