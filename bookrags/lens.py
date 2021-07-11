@@ -1,5 +1,7 @@
 import re
 from requests.sessions import Session
+from bookrags.product import Product
+from bookrags.helper import resolve_type, is_product
 
 
 class Lens:
@@ -24,24 +26,27 @@ class Lens:
         Returns all the pages for a study pack
         wait i just realised how fucking stupid this function is LOL
         """
-        ret = []
-        get_study_block = ('<!-- BEGIN STUDY PACK BLOCK -->'
-                           '(.*?)<!-- END STUDY PACK BLOCK -->')
-
-        study_block = re.search(
-            get_study_block, self._content, flags=re.DOTALL)
-
-        if not study_block:
-            print('study block not found')
-            return ret
-
-        print(study_block.group())
+        pass
 
     def get_study_guides(self):
         """
-        Return all study guide links
+        Return all study guide Product objects
         """
-        pass
+        ret = []
+        get_sg = '<!-- BEGIN STUDY GUIDE BLOCK -->(.*?)<!-- END STUDY GUIDE BLOCK -->'
+        study_guides_raw = re.search(get_sg, self._content, flags=re.DOTALL)
+
+        if not study_guides_raw:
+            return ret
+
+        study_guides = re.findall("href='(.*?)'", study_guides_raw.group())
+
+        for i in study_guides:
+            type = resolve_type(self._session, i)
+            if is_product(type):
+                ret.append(Product(self._session, i, type))
+
+        return ret
 
     def get_encyclopedias(self):
         """

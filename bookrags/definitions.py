@@ -29,3 +29,11 @@ CONVERT_TYPE = {
     'bios': ProductType.BIOGRAPHY,
     'litcrit': ProductType.ESSAY
 }
+
+
+def is_product(type: ProductType):
+    if type == ProductType.UNKNOWN or \
+        type == ProductType.LESSON_PLAN or \
+            type == ProductType.LENS:
+        return False
+    return True
