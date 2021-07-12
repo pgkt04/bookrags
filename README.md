@@ -2,7 +2,7 @@
  Scraper & downloader for bookrags.com
  Ever wanted to download hundreds of pdfs and files at once since the site doesn't support it? 
 
- ![Demonstration]()
+ ![Demonstration](https://github.com/qtKite/bookrags/blob/main/resources/example.gif?raw=true)
 
  
 # Setup
