@@ -1,3 +1,4 @@
+from bookrags.definitions import ProductType
 import re
 from requests.sessions import Session
 from bookrags.product import Product
@@ -32,10 +33,10 @@ class Lens:
         ret.append(self.get_ebooks())
         ret.append(self.get_biographies())
         ret.append(self.get_essays())
-        ret.append(self.get_notes())
+
         return ret
 
-    def _extract_links(self, expression) -> List[Product]:
+    def _extract_links(self, expression: str, type: ProductType) -> List[Product]:
         ret = []
         block_code = re.search(expression, self._content, flags=re.DOTALL)
         if not block_code:
@@ -43,9 +44,7 @@ class Lens:
         links = re.findall("href='(.*?)'", block_code.group())
 
         for i in links:
-            type = resolve_type(self._session, i)
-            if is_product(type):
-                ret.append(Product(self._session, i, type))
+            ret.append(Product(self._session, i, type))
 
         return ret
 
@@ -54,7 +53,8 @@ class Lens:
         Return all study guide Product products
         """
         return self._extract_links(
-            '<!-- BEGIN STUDY GUIDE BLOCK -->(.*?)<!-- END STUDY GUIDE BLOCK -->'
+            '<!-- BEGIN STUDY GUIDE BLOCK -->(.*?)<!-- END STUDY GUIDE BLOCK -->',
+            ProductType.STUDY_GUIDE
         )
 
     def get_encyclopedias(self) -> List[Product]:
@@ -62,7 +62,8 @@ class Lens:
         Return all encyclopedia / gale products
         """
         return self._extract_links(
-            '<!-- BEGIN ENCYCLOPEDIA BLOCK -->(.*?)<!-- END ENCYCLOPEDIA BLOCK -->'
+            '<!-- BEGIN ENCYCLOPEDIA BLOCK -->(.*?)<!-- END ENCYCLOPEDIA BLOCK -->',
+            ProductType.ENCYCLOPEDIA
         )
 
     def get_ebooks(self) -> List[Product]:
@@ -70,7 +71,8 @@ class Lens:
         Get all ebook products
         """
         return self._extract_links(
-            '<!-- BEGIN EBOOKS BLOCK -->(.*?)<!-- #topicEBooksBlock -->'
+            '<!-- BEGIN EBOOKS BLOCK -->(.*?)<!-- #topicEBooksBlock -->',
+            ProductType.EBOOK
         )
 
     def get_biographies(self) -> List[Product]:
@@ -78,7 +80,8 @@ class Lens:
         Get all biography products
         """
         self._extract_links(
-            '<!-- BEGIN BIOGRAPHY BLOCK -->(.*?)<!-- END BIOGRAPHY BLOCK -->'
+            '<!-- BEGIN BIOGRAPHY BLOCK -->(.*?)<!-- END BIOGRAPHY BLOCK -->',
+            ProductType.BIOGRAPHY
         )
 
     def get_essays(self) -> List[Product]:
@@ -86,14 +89,12 @@ class Lens:
         Get all essay products
         """
         return self._extract_links(
-            '<!-- BEGIN ESSAYS BLOCK -->(.*?)<!-- END ESSAYS BLOCK -->'
+            '<!-- BEGIN ESSAYS BLOCK -->(.*?)<!-- END ESSAYS BLOCK -->',
+            ProductType.ESSAY
         )
 
     def get_notes(self) -> List[Product]:
         """
-        Get all note links
         Not supported, they are included in the study guide
         """
-        return self._extract_links(
-            '<!-- BEGIN NOTES BLOCK -->(.*?)<!-- END NOTES BLOCK --'
-        )
+        return []
