@@ -11,7 +11,7 @@ class BookRags:
     Interface class for communicating with the API
     """
 
-    def __init__(self, username: str, password: str):
+    def __init__(self, username: str, password: str) -> None:
         """
         Creates a session given login details
         """
@@ -23,7 +23,7 @@ class BookRags:
         self._setup_cookies()
         self._login()
 
-    def _setup_cookies(self):
+    def _setup_cookies(self) -> None:
         """
         Not required
         """
@@ -31,7 +31,7 @@ class BookRags:
         self._session.get(Urls.WEBSITE_URL)
         self._session.get(Urls.SESSION_URL)
 
-    def _login(self):
+    def _login(self) -> None:
         """
         Authenticates the current session using the given details
         """
@@ -39,7 +39,7 @@ class BookRags:
             Urls.LOGIN_URL,
             data=self.__details)
 
-    def is_logged_in(self):
+    def is_logged_in(self) -> bool:
         """
         Checks if the current session is signed in
         """
@@ -49,16 +49,16 @@ class BookRags:
 
         return len(check) > 0
 
-    def get_session(self):
+    def get_session(self) -> requests.session:
         return self._session
 
-    def logout(self):
+    def logout(self) -> None:
         """
         Signs out of the user account from the active session
         """
         self._session.get(Urls.LOGOUT_URL)
 
-    def resolve_product(self, link: str):
+    def resolve_product(self, link: str) -> Product:
         """
         Given a link, it will resolve into the product page
         """
@@ -71,7 +71,7 @@ class BookRags:
 
         return Product(self._session, link, type)
 
-    def resolve_study_plan(self, link: str):
+    def resolve_study_plan(self, link: str) -> Lens:
         """
         Given a link, it will resolve it into the study guide page and return a Lens instance
         """

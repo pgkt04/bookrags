@@ -4,7 +4,7 @@ import json
 import re
 
 
-def is_product(type: ProductType):
+def is_product(type: ProductType) -> bool:
     if type == ProductType.UNKNOWN or \
         type == ProductType.LESSON_PLAN or \
             type == ProductType.LENS:
@@ -12,7 +12,7 @@ def is_product(type: ProductType):
     return True
 
 
-def resolve_type(session: Session, link: str):
+def resolve_type(session: Session, link: str) -> ProductType:
     """
     Given a link, it will return the ProductType
     """
