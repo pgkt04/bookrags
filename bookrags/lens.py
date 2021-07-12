@@ -15,14 +15,14 @@ class Lens:
         self._link = link
         self._content = session.get(link).text
 
-    def get_link(self):
+    def get_link(self) -> str:
         return self._link
 
-    def get_title(self):
+    def get_title(self) -> str:
         page_title = re.search('<title>(.*?)</title>', self._content)
-        return page_title
+        return page_title.group(1)
 
-    def get_study_pack(self):
+    def get_study_pack(self) -> List[Product]:
         """
         Returns all the pages for a study pack
         wait i just realised how fucking stupid this function is LOL
@@ -81,13 +81,13 @@ class Lens:
         """
         pass
 
-    def get_essays(self):
+    def get_essays(self) -> List[Product]:
         """
         Get all essay links
         """
         pass
 
-    def get_notes(self):
+    def get_notes(self) -> List[Product]:
         """
         Get all note links
         Not supported, they are included in the study guide
