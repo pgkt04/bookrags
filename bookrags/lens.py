@@ -25,71 +25,75 @@ class Lens:
     def get_study_pack(self) -> List[Product]:
         """
         Returns all the pages for a study pack
-        wait i just realised how fucking stupid this function is LOL
         """
-        pass
+        ret = []
+        ret.append(self.get_study_guides())
+        ret.append(self.get_encyclopedias())
+        ret.append(self.get_ebooks())
+        ret.append(self.get_biographies())
+        ret.append(self.get_essays())
+        ret.append(self.get_notes())
+        return ret
+
+    def _extract_links(self, expression) -> List[Product]:
+        ret = []
+        block_code = re.search(expression, self._content, flags=re.DOTALL)
+        if not block_code:
+            return ret
+        links = re.findall("href='(.*?)'", block_code.group())
+
+        for i in links:
+            type = resolve_type(self._session, i)
+            if is_product(type):
+                ret.append(Product(self._session, i, type))
+
+        return ret
 
     def get_study_guides(self) -> List[Product]:
         """
-        Return all study guide Product objects
+        Return all study guide Product products
         """
-        ret = []
-        get_sg = '<!-- BEGIN STUDY GUIDE BLOCK -->(.*?)<!-- END STUDY GUIDE BLOCK -->'
-        study_guides_raw = re.search(get_sg, self._content, flags=re.DOTALL)
-
-        if not study_guides_raw:
-            return ret
-
-        study_guides = re.findall("href='(.*?)'", study_guides_raw.group())
-
-        for i in study_guides:
-            type = resolve_type(self._session, i)
-            if is_product(type):
-                ret.append(Product(self._session, i, type))
-
-        return ret
+        return self._extract_links(
+            '<!-- BEGIN STUDY GUIDE BLOCK -->(.*?)<!-- END STUDY GUIDE BLOCK -->'
+        )
 
     def get_encyclopedias(self) -> List[Product]:
         """
-        Return all encyclopedia / gale links
+        Return all encyclopedia / gale products
         """
-        ret = []
-        get_enc = '<!-- BEGIN ENCYCLOPEDIA BLOCK -->(.*?)<!-- END ENCYCLOPEDIA BLOCK -->'
-        study_guides_raw = re.search(get_enc, self._content, flags=re.DOTALL)
+        return self._extract_links(
+            '<!-- BEGIN ENCYCLOPEDIA BLOCK -->(.*?)<!-- END ENCYCLOPEDIA BLOCK -->'
+        )
 
-        if not study_guides_raw:
-            return ret
-
-        study_guides = re.findall("href='(.*?)'", study_guides_raw.group())
-        existing = {}
-
-        for i in study_guides:
-            if i not in existing:
-                existing[i] = True
-            else:
-                continue
-
-            type = resolve_type(self._session, i)
-            if is_product(type):
-                ret.append(Product(self._session, i, type))
-
-        return ret
+    def get_ebooks(self) -> List[Product]:
+        """
+        Get all ebook products
+        """
+        return self._extract_links(
+            '<!-- BEGIN EBOOKS BLOCK -->(.*?)<!-- #topicEBooksBlock -->'
+        )
 
     def get_biographies(self) -> List[Product]:
         """
-        Get all biography linkes
+        Get all biography products
         """
-        pass
+        self._extract_links(
+            '<!-- BEGIN BIOGRAPHY BLOCK -->(.*?)<!-- END BIOGRAPHY BLOCK -->'
+        )
 
     def get_essays(self) -> List[Product]:
         """
-        Get all essay links
+        Get all essay products
         """
-        pass
+        return self._extract_links(
+            '<!-- BEGIN ESSAYS BLOCK -->(.*?)<!-- END ESSAYS BLOCK -->'
+        )
 
     def get_notes(self) -> List[Product]:
         """
         Get all note links
         Not supported, they are included in the study guide
         """
-        pass
+        return self._extract_links(
+            '<!-- BEGIN NOTES BLOCK -->(.*?)<!-- END NOTES BLOCK --'
+        )
