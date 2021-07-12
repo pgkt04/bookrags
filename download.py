@@ -70,10 +70,10 @@ def main():
         progress += 1
         pdf_link = i.get_pdf()
         file_name = extract_name(pdf_link)
-        pdf_file = requests.get(pdf_link)
         download_path = download_folder + '/' + file_name
 
         if not os.path.exists(download_path):
+            pdf_file = requests.get(pdf_link)
             with open(download_path, 'wb') as fh:
                 fh.write(pdf_file.content)
 

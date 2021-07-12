@@ -1,5 +1,9 @@
-# bookrags
+# Bookrags
  Scraper & downloader for bookrags.com
+ Ever wanted to download hundreds of pdfs and files at once since the site doesn't support it? 
+
+ ![Demonstration]()
+
  
 # Setup
  Install the required dependencies in requirements.txt
