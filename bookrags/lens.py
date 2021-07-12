@@ -2,7 +2,6 @@ from bookrags.definitions import ProductType
 import re
 from requests.sessions import Session
 from bookrags.product import Product
-from bookrags.helper import resolve_type, is_product
 from typing import List
 
 
