@@ -4,15 +4,15 @@
 
  ![Demonstration](https://github.com/qtKite/bookrags/blob/main/resources/example.gif?raw=true)
 
- 
 # Setup
  Install the required dependencies in requirements.txt
  `pip install -r requirements.txt`
 
 # Usage
- If you just want to run the download script to batch download pdfs run:
+ First edit the download script with your credentials.
+ `instance = BookRags('username', 'password')`
+ Then run the download script and follow the instructions prompted:
  `python downloads.py`
- Then follow the instructions prompted
 
 # API
  All relevant API functions are found in the bookrags directory
