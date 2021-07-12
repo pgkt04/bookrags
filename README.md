@@ -5,13 +5,13 @@
  ![Demonstration](https://github.com/qtKite/bookrags/blob/main/resources/example.gif?raw=true)
 
 # Setup
- Install the required dependencies in requirements.txt
- `pip install -r requirements.txt`
+ Install the required dependencies in requirements.txt  
+ `pip install -r requirements.txt`  
 
 # Usage
- First edit the download script with your credentials.
- `instance = BookRags('username', 'password')`
- Then run the download script and follow the instructions prompted:
+ First edit the download script with your credentials.  
+ `instance = BookRags('username', 'password')`  
+ Then run the download script and follow the instructions prompted:  
  `python downloads.py`
 
 # API
