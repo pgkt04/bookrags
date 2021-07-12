@@ -2,6 +2,7 @@ import re
 from requests.sessions import Session
 from bookrags.product import Product
 from bookrags.helper import resolve_type, is_product
+from typing import List
 
 
 class Lens:
@@ -9,7 +10,7 @@ class Lens:
     Special product type that contains references to all resources
     """
 
-    def __init__(self, session: Session, link: str):
+    def __init__(self, session: Session, link: str) -> None:
         self._session = session
         self._link = link
         self._content = session.get(link).text
@@ -28,7 +29,7 @@ class Lens:
         """
         pass
 
-    def get_study_guides(self):
+    def get_study_guides(self) -> List[Product]:
         """
         Return all study guide Product objects
         """
@@ -48,13 +49,33 @@ class Lens:
 
         return ret
 
-    def get_encyclopedias(self):
+    def get_encyclopedias(self) -> List[Product]:
         """
         Return all encyclopedia / gale links
         """
-        pass
+        ret = []
+        get_enc = '<!-- BEGIN ENCYCLOPEDIA BLOCK -->(.*?)<!-- END ENCYCLOPEDIA BLOCK -->'
+        study_guides_raw = re.search(get_enc, self._content, flags=re.DOTALL)
 
-    def get_biographies(self):
+        if not study_guides_raw:
+            return ret
+
+        study_guides = re.findall("href='(.*?)'", study_guides_raw.group())
+        existing = {}
+
+        for i in study_guides:
+            if i not in existing:
+                existing[i] = True
+            else:
+                continue
+
+            type = resolve_type(self._session, i)
+            if is_product(type):
+                ret.append(Product(self._session, i, type))
+
+        return ret
+
+    def get_biographies(self) -> List[Product]:
         """
         Get all biography linkes
         """

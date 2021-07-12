@@ -58,7 +58,6 @@ class BookRags:
         """
         self._session.get(Urls.LOGOUT_URL)
 
-
     def resolve_product(self, link: str):
         """
         Given a link, it will resolve into the product page
