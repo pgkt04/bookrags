@@ -1,23 +1,33 @@
 import os
+import re
+import requests
 from slugify import slugify
 from bookrags.bookrags import BookRags
+
+
+def extract_name(link):
+    """
+    Gets the file name given a download link
+    """
+    name = re.search('.*\/(.*pdf)', link).group(1)
+    return name.group(1)
 
 
 def main():
     instance = BookRags('username', 'password')
 
     if not instance.is_logged_in():
-        print('failed to log in')
+        print('Failed to log in')
         return
 
-    link = input('enter a link to download ')
+    link = input('Enter a link to download ')
     study_plan = instance.resolve_study_plan(link)
 
     if not study_plan:
-        print('invalid link')
+        print('Invalid link')
         return
 
-    print('what would you like to download?')
+    print('What would you like to download?')
     print('1. All')
     print('2. Study Guides')
     print('3. Encyclopedia')
@@ -26,6 +36,9 @@ def main():
     print('6. Biographies')
 
     choice = input('> ')
+
+    print('Preparing to download...')
+
     downloads = []
 
     if choice == '1':
@@ -43,9 +56,23 @@ def main():
     else:
         print('Unknown choice - please try again...')
         return
-    
-    print('selected:')
-    print(downloads)
 
-if __name__ == "__main__":
+    download_folder = slugify(study_plan.get_title())
+
+    if not os.path.exist(download_folder):
+        os.makedirs(download_folder)
+
+    progress = 0
+    for i in downloads:
+        progress += 1
+        file_name = extract_name(i.get_pdf())
+        pdf_file = requests.get(i)
+        with open(download_folder + '/' + file_name, 'wb') as fh:
+            fh.write(pdf_file.content)
+        print('Progress:', progress, '/', len(downloads))
+
+    print('Done!')
+
+
+if __name__ == '__main__':
     main()
