@@ -42,10 +42,17 @@ class Lens:
         if not block_code:
             return ret
         links = re.findall("href='(.*?)'", block_code.group())
+        existing = {}
 
         for i in links:
-            ret.append(Product(self._session, i, type))
+            if i not in existing:
+                existing[i] = True
+            else:
+                continue
 
+            print(i)
+
+            ret.append(Product(self._session, i, type))
         return ret
 
     def get_study_guides(self) -> List[Product]:
