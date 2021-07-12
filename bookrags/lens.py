@@ -43,15 +43,11 @@ class Lens:
             return ret
         links = re.findall("href='(.*?)'", block_code.group())
         existing = {}
-
         for i in links:
             if i not in existing:
                 existing[i] = True
             else:
                 continue
-
-            print(i)
-
             ret.append(Product(self._session, i, type))
         return ret
 
@@ -86,7 +82,7 @@ class Lens:
         """
         Get all biography products
         """
-        self._extract_links(
+        return self._extract_links(
             '<!-- BEGIN BIOGRAPHY BLOCK -->(.*?)<!-- END BIOGRAPHY BLOCK -->',
             ProductType.BIOGRAPHY
         )
