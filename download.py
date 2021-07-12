@@ -9,8 +9,7 @@ def extract_name(link):
     """
     Gets the file name given a download link
     """
-    name = re.search('.*\/(.*pdf)', link).group(1)
-    return name.group(1)
+    return re.search('.*\/(.*pdf)', link).group(1)
 
 
 def main():
@@ -20,7 +19,7 @@ def main():
         print('Failed to log in')
         return
 
-    link = input('Enter a link to download ')
+    link = input('Enter a link to download: ')
     study_plan = instance.resolve_study_plan(link)
 
     if not study_plan:
@@ -42,33 +41,42 @@ def main():
     downloads = []
 
     if choice == '1':
-        downloads.append(study_plan.get_study_pack())
+        downloads.extend(study_plan.get_study_pack())
     elif choice == '2':
-        downloads.append(study_plan.get_study_guides())
+        downloads.extend(study_plan.get_study_guides())
     elif choice == '3':
-        downloads.append(study_plan.get_encyclopedias())
+        downloads.extend(study_plan.get_encyclopedias())
     elif choice == '4':
-        downloads.append(study_plan.get_ebooks())
+        downloads.extend(study_plan.get_ebooks())
     elif choice == '5':
-        downloads.append(study_plan.get_essays())
+        downloads.extend(study_plan.get_essays())
     elif choice == '6':
-        downloads.append(study_plan.get_biographies())
+        downloads.extend(study_plan.get_biographies())
     else:
         print('Unknown choice - please try again...')
         return
 
+    if len(downloads) < 1:
+        print('No content found!')
+        return
+
     download_folder = slugify(study_plan.get_title())
 
-    if not os.path.exist(download_folder):
+    if not os.path.exists(download_folder):
         os.makedirs(download_folder)
 
     progress = 0
     for i in downloads:
         progress += 1
-        file_name = extract_name(i.get_pdf())
-        pdf_file = requests.get(i)
-        with open(download_folder + '/' + file_name, 'wb') as fh:
-            fh.write(pdf_file.content)
+        pdf_link = i.get_pdf()
+        file_name = extract_name(pdf_link)
+        pdf_file = requests.get(pdf_link)
+        download_path = download_folder + '/' + file_name
+
+        if not os.path.exists(download_path):
+            with open(download_path, 'wb') as fh:
+                fh.write(pdf_file.content)
+
         print('Progress:', progress, '/', len(downloads))
 
     print('Done!')
