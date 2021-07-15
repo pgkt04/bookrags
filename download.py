@@ -78,7 +78,7 @@ def main():
                 fh.write(pdf_file.content)
             print('Progress:', progress, '/', len(downloads))
         else:
-            print(download_path, 'already exists, skipping...')
+            print(file_name, 'already exists, skipping...')
 
     print('Done!')
 
