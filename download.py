@@ -76,8 +76,9 @@ def main():
             pdf_file = requests.get(pdf_link)
             with open(download_path, 'wb') as fh:
                 fh.write(pdf_file.content)
-
-        print('Progress:', progress, '/', len(downloads))
+            print('Progress:', progress, '/', len(downloads))
+        else:
+            print(download_path, 'already exists, skipping...')
 
     print('Done!')
 
