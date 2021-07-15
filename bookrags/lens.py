@@ -54,10 +54,15 @@ class Lens:
         """
         Return all study guide Product products
         """
-        return self._extract_links(
+        ret = self._extract_links(
             '<!-- BEGIN STUDY GUIDE BLOCK -->(.*?)<!-- END STUDY GUIDE BLOCK -->',
             ProductType.STUDY_GUIDE
         )
+
+        if len(ret) > 0:
+            return [ret[0]]
+        else:
+            return []
 
     def get_encyclopedias(self) -> List[Product]:
         """
