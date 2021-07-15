@@ -27,11 +27,11 @@ class Lens:
         Returns all the pages for a study pack
         """
         ret = []
-        ret.append(self.get_study_guides())
-        ret.append(self.get_encyclopedias())
-        ret.append(self.get_ebooks())
-        ret.append(self.get_biographies())
-        ret.append(self.get_essays())
+        ret.extend(self.get_study_guides())
+        ret.extend(self.get_encyclopedias())
+        ret.extend(self.get_ebooks())
+        ret.extend(self.get_biographies())
+        ret.extend(self.get_essays())
 
         return ret
 
