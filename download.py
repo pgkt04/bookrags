@@ -69,19 +69,18 @@ def main():
     for i in downloads:
         progress += 1
         pdf_link = i.get_pdf()
-        file_name = extract_name(pdf_link)
-        download_path = download_folder + '/' + file_name
-
-        if not os.path.exists(download_path):
-            pdf_file = requests.get(pdf_link)
-            if pdf_file:
+        if pdf_link:
+            file_name = extract_name(pdf_link)
+            download_path = download_folder + '/' + file_name
+            if not os.path.exists(download_path):
+                pdf_file = requests.get(pdf_link)
                 with open(download_path, 'wb') as fh:
                     fh.write(pdf_file.content)
                 print('Progress:', progress, '/', len(downloads))
             else:
-                print('PDF link broken! skipping...')
+                print(file_name, 'already exists, skipping...')
         else:
-            print(file_name, 'already exists, skipping...')
+            print('PDF link broken! skipping...')
 
     print('Done!')
 
