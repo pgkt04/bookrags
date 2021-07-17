@@ -16,29 +16,38 @@ class Product:
     def get_type(self):
         return self._type
 
-    def get_pdf(self):
+    def get_pdf(self) -> str:
         """
         Gets the pdf down link
         """
-        link = re.search('http.*?mode=pdf', self._content).group()
-        download = self._session.get(
-            link, allow_redirects=False).headers['location']
-        return download
+        try:
+            link = re.search('http.*?mode=pdf', self._content).group()
+            download = self._session.get(
+                link, allow_redirects=False).headers['location']
+            return download
+        except:
+            return None
 
-    def get_docx(self):
+    def get_docx(self) -> str:
         """
         Get the word download link
         """
-        page_code = self._session.get(self._link).text
-        link = re.search('http.*?mode=doc', page_code).group()
-        download = self._session.get(
-            link, allow_redirects=False).headers['location']
-        return download
+        try:
+            page_code = self._session.get(self._link).text
+            link = re.search('http.*?mode=doc', page_code).group()
+            download = self._session.get(
+                link, allow_redirects=False).headers['location']
+            return download
+        except:
+            return None
 
     def get_print(self):
         """
         Get the print
         """
-        page_code = self._session.get(self._link).text
-        link = re.search('http.*?mode=print', page_code).group()
-        return link
+        try:
+            page_code = self._session.get(self._link).text
+            link = re.search('http.*?mode=print', page_code).group()
+            return link
+        except:
+            return None

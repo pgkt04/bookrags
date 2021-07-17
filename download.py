@@ -74,9 +74,12 @@ def main():
 
         if not os.path.exists(download_path):
             pdf_file = requests.get(pdf_link)
-            with open(download_path, 'wb') as fh:
-                fh.write(pdf_file.content)
-            print('Progress:', progress, '/', len(downloads))
+            if pdf_file:
+                with open(download_path, 'wb') as fh:
+                    fh.write(pdf_file.content)
+                print('Progress:', progress, '/', len(downloads))
+            else:
+                print('PDF link broken! skipping...')
         else:
             print(file_name, 'already exists, skipping...')
 
